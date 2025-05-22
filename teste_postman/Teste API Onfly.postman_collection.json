@@ -1,0 +1,347 @@
+{
+	"info": {
+		"_postman_id": "39e12222-6ea4-411c-90dc-97d731084fbc",
+		"name": "Teste API Onfly",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19455580",
+		"_collection_link": "https://cloudy-desert-994025.postman.co/workspace/Fundamentos-do-Postman-~f2a1563e-6ad5-4894-acd4-74be267496c0/collection/19455580-39e12222-6ea4-411c-90dc-97d731084fbc?action=share&source=collection_link&creator=19455580"
+	},
+	"item": [
+		{
+			"name": "Listar Usuários",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body is an array\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response array is not empty (usually)\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    if (responseData.length > 0) {\r",
+							"        pm.expect(responseData.length).to.be.greaterThan(0);\r",
+							"        // Store an ID for other tests\r",
+							"        pm.collectionVariables.set(\"userId\", responseData[0].id);\r",
+							"    } else {\r",
+							"        console.warn(\"User list is empty, subsequent tests needing a userId might fail or need adjustment.\");\r",
+							"    }\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar um Novo Usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User was created successfully and name matches\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"Seu Nome Teste API\");\r",
+							"    pm.expect(jsonData.id).to.not.be.null;\r",
+							"    // Salvar o ID do usuário criado para usar nas próximas requisições\r",
+							"    pm.collectionVariables.set(\"userId\", jsonData.id); // <--- ESTA LINHA É A CHAVE\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "47982369071a992df38d96fc097e6eafe5a6e0ee73a4a06e65b4e76d6d238686",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Silvanio Saldanha Teste\",\r\n    \"gender\": \"male\",\r\n    \"email\": \"silvanio.teste.api{{$randomInt}}@example.com\",\r\n    \"status\": \"active\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/users",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obter Usuário Específico",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User ID matches the created user ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    // pm.collectionVariables.get(\"userId\") retorna uma string, jsonData.id é um número\r",
+							"    pm.expect(jsonData.id).to.eql(parseInt(pm.collectionVariables.get(\"userId\")));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User data contains expected fields\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property('name');\r",
+							"    pm.expect(jsonData).to.have.property('email');\r",
+							"    pm.expect(jsonData).to.have.property('gender');\r",
+							"    pm.expect(jsonData).to.have.property('status');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "47982369071a992df38d96fc097e6eafe5a6e0ee73a4a06e65b4e76d6d238686",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/{{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar Usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User data was updated\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.name).to.eql(\"Seu Nome Teste API Atualizado\");\r",
+							"    pm.expect(responseData.status).to.eql(\"inactive\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "47982369071a992df38d96fc097e6eafe5a6e0ee73a4a06e65b4e76d6d238686",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Seu Nome Teste API Atualizado\",\r\n    \"status\": \"inactive\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/users/{{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar Usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204 (No Content)\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "47982369071a992df38d96fc097e6eafe5a6e0ee73a4a06e65b4e76d6d238686",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/{{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verificar se o usuário foi deletado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404 (Not Found) after deletion\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/{{userId}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "47982369071a992df38d96fc097e6eafe5a6e0ee73a4a06e65b4e76d6d238686",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "userId",
+			"value": ""
+		}
+	]
+}

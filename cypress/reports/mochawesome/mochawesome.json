@@ -1,0 +1,110 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2025-05-19T18:36:58.921Z",
+    "end": "2025-05-19T18:37:41.891Z",
+    "duration": 42970,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "b53884fd-78a0-45e5-a90c-baf66c4a2609",
+      "title": "",
+      "fullFile": "cypress\\e2e\\amazon_compra_livro.cy.js",
+      "file": "cypress\\e2e\\amazon_compra_livro.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "e0218247-c1e8-44eb-bd7a-79f99d4f0e75",
+          "title": "Fluxo de compra de livro na Amazon",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Deve realizar login, pesquisar, adicionar ao carrinho e fazer logout",
+              "fullTitle": "Fluxo de compra de livro na Amazon Deve realizar login, pesquisar, adicionar ao carrinho e fazer logout",
+              "timedOut": null,
+              "duration": 42856,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// CT001: Login na Amazon\ncy.visit('/'); // Vai para a baseUrl (amazon.com.br)\ncy.get('#nav-link-accountList').click(); // Clique em \"Olá, Faça seu login\"\ncy.get('#ap_email_login').should('be.visible').type(userEmail);\ncy.get('#continue').click();\ncy.get('#ap_password').should('be.visible').type(userPassword);\ncy.get('#signInSubmit').click();\n// Verificação de login (ex: checar se o nome do usuário aparece)\n// O seletor pode variar, inspecione o elemento na Amazon após o login\ncy.get('#nav-link-accountList-nav-line-1').should('contain.text', 'Olá'); // Ajuste 'Olá' se o texto for diferente\n// CT002: Pesquisar Produto\ncy.get('#twotabsearchtextbox').should('be.visible').type('Código Limpo');\ncy.get('#nav-search-submit-button').click();\n// Verificar se a página de resultados carregou\ncy.get('h1').contains('resultados', {\n  matchCase: false,\n  timeout: 15000\n}).should('be.visible'); // Ou outro texto que confirme a página de resultados\n// CT003: Selecionar Produto da Lista de Resultados\n// ATENÇÃO: Seletores da Amazon podem ser dinâmicos.\n// É crucial usar seletores robustos ou encontrar formas de identificar o produto corretamente.\n// Este seletor é um exemplo e pode precisar de ajuste.\n// Tente selecionar pelo texto do link que contenha \"Código Limpo\" e seja um resultado de produto.\ncy.get('div[data-component-type=\"s-search-result\"]') // Pega todos os cards de resultado\n.filter(':contains(\"Código Limpo\")') // Filtra os cards que contêm o texto \"Código Limpo\" em qualquer lugar dentro deles\n.first() // Pega o primeiro card que contém o texto\n.find('h2 span') // Dentro desse card, encontra o span dentro de um h2 (baseado no seu HTML)\n.should('contain.text', 'Código Limpo') // Confirma o texto (opcional, mas bom)\n.closest('a, div[data-component-type=\"s-search-result\"]') // Sobe na árvore DOM para encontrar o primeiro ancestral 'a' OU o próprio card\n.click(); // Clica no link ou no card\n// CT004: Verificar Detalhes do Produto\ncy.get('#productTitle').should('be.visible').and('contain.text', 'Código Limpo');\n// Opcional: verificar autor, se o seletor for estável\ncy.contains('.author a', 'Robert C. Martin').should('be.visible');\n// CT005: Adicionar Produto ao Carrinho\ncy.get('#add-to-cart-button').should('be.visible').click();\n// Verificar confirmação\n// Pode ser um modal, uma mensagem na página ou o contador do carrinho\n// Exemplo para um modal comum (pode variar):\ncy.get('#NATC_SMART_WAGON_CONF_MSG_SUCCESS', {\n  timeout: 15000\n}) // Espera até 15s por esta mensagem\n.should('be.visible').and('contain.text', 'Adicionado ao carrinho');\n// Fechar o modal se ele aparecer e cobrir outros elementos (opcional, dependendo da UI)\n// cy.get('#attach-close_sideSheet-link').click({force: true}); // Exemplo de como fechar um painel lateral\n// Ou verificar o contador do carrinho (o seletor '#nav-cart-count' é comum)\n// cy.get('#nav-cart-count').should('contain.text', '1');\n// CT006: Logout da Amazon\n// A Amazon pode ter mecanismos de proteção contra automação no logout.\n// O trigger('mouseover') pode ser necessário.\ncy.get('#nav-link-accountList').trigger('mouseover');\ncy.get('#nav-item-signout').click({\n  force: true\n}); // force:true pode ser necessário se o elemento estiver coberto\n// Verificar se o logout foi bem-sucedido\ncy.url().should('contain', 'signin'); // Ou verificar se o botão de login voltou\ncy.get('#nav-link-accountList-nav-line-1').should('contain.text', 'Faça seu login');",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#nav-link-accountList-nav-line-1`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#nav-link-accountList-nav-line-1`, but never found it.\n    at Context.eval (webpack://teste-onfly/./cypress/e2e/amazon_compra_livro.cy.js:77:47)",
+                "diff": null
+              },
+              "uuid": "a59f4970-64ea-488f-8f42-c873b41cb729",
+              "parentUUID": "e0218247-c1e8-44eb-bd7a-79f99d4f0e75",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "a59f4970-64ea-488f-8f42-c873b41cb729"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 42856,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/mochawesome",
+        "overwrite": false,
+        "html": true,
+        "json": true,
+        "charts": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

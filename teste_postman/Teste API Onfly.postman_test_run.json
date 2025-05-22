@@ -1,0 +1,238 @@
+{
+	"id": "7b07873c-3768-4315-a451-a6b20ac72efe",
+	"name": "Teste API Onfly",
+	"timestamp": "2025-05-19T19:13:07.911Z",
+	"collection_id": "19455580-39e12222-6ea4-411c-90dc-97d731084fbc",
+	"folder_id": 0,
+	"environment_id": "19455580-2ea40198-9ef8-4b93-9e17-47ff7064c239",
+	"totalPass": 10,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-05-19T19:13:03.786Z",
+	"totalFail": 1,
+	"results": [
+		{
+			"id": "21719fb2-d9ba-4223-a660-f6f4a7f10c87",
+			"name": "Listar Usuários",
+			"url": "https://gorest.co.in/public/v2/users",
+			"time": 1144,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response body is an array": true,
+				"Response array is not empty (usually)": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response body is an array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response array is not empty (usually)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1144
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response body is an array": true,
+					"Response array is not empty (usually)": true
+				}
+			]
+		},
+		{
+			"id": "4e724f24-5709-4ad4-afff-5e7268221a13",
+			"name": "Criar um Novo Usuário",
+			"url": "https://gorest.co.in/public/v2/users",
+			"time": 414,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"User was created successfully and name matches": false
+			},
+			"testPassFailCounts": {
+				"User was created successfully and name matches": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				414
+			],
+			"allTests": [
+				{
+					"User was created successfully and name matches": false
+				}
+			]
+		},
+		{
+			"id": "ea189585-b6e1-4f2b-8bb2-8bfe29795fde",
+			"name": "Obter Usuário Específico",
+			"url": "https://gorest.co.in/public/v2/users/7900947",
+			"time": 397,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 OK": true,
+				"User ID matches the created user ID": true,
+				"User data contains expected fields": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 OK": {
+					"pass": 1,
+					"fail": 0
+				},
+				"User ID matches the created user ID": {
+					"pass": 1,
+					"fail": 0
+				},
+				"User data contains expected fields": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				397
+			],
+			"allTests": [
+				{
+					"Status code is 200 OK": true,
+					"User ID matches the created user ID": true,
+					"User data contains expected fields": true
+				}
+			]
+		},
+		{
+			"id": "8e15b1bb-4bc9-4664-b91d-3ad18bfaf645",
+			"name": "Atualizar Usuário",
+			"url": "https://gorest.co.in/public/v2/users/7900947",
+			"time": 414,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"User data was updated": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"User data was updated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				414
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"User data was updated": true
+				}
+			]
+		},
+		{
+			"id": "bfee103d-ead9-4ab7-9932-cae3f24013eb",
+			"name": "Deletar Usuário",
+			"url": "https://gorest.co.in/public/v2/users/7900947",
+			"time": 422,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204 (No Content)": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204 (No Content)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				422
+			],
+			"allTests": [
+				{
+					"Status code is 204 (No Content)": true
+				}
+			]
+		},
+		{
+			"id": "b3672ad9-9a43-4bff-9285-3cd4f03889d4",
+			"name": "Verificar se o usuário foi deletado",
+			"url": "https://gorest.co.in/public/v2/users/7900947",
+			"time": 398,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404 (Not Found) after deletion": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404 (Not Found) after deletion": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				398
+			],
+			"allTests": [
+				{
+					"Status code is 404 (Not Found) after deletion": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 3189,
+	"collection": {
+		"requests": [
+			{
+				"id": "21719fb2-d9ba-4223-a660-f6f4a7f10c87",
+				"method": "GET"
+			},
+			{
+				"id": "4e724f24-5709-4ad4-afff-5e7268221a13",
+				"method": "POST"
+			},
+			{
+				"id": "ea189585-b6e1-4f2b-8bb2-8bfe29795fde",
+				"method": "GET"
+			},
+			{
+				"id": "8e15b1bb-4bc9-4664-b91d-3ad18bfaf645",
+				"method": "PATCH"
+			},
+			{
+				"id": "bfee103d-ead9-4ab7-9932-cae3f24013eb",
+				"method": "DELETE"
+			},
+			{
+				"id": "b3672ad9-9a43-4bff-9285-3cd4f03889d4",
+				"method": "GET"
+			}
+		]
+	}
+}
